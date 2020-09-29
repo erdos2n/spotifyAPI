@@ -35,6 +35,13 @@ class SpotifyClient(object):
 
             return wrapper
 
+
+    def make_request(self, headers, url, method):
+        r = requests.request(method=method, url=url, headers=headers)
+        if r not in range(200, 299):
+            raise Exception()
+
+
     def get_auth_token_headers(self):
         client_credentials_b64 = self.get_client_credentials()
         return {"Authorization": f"Basic {client_credentials_b64.decode()}"}
@@ -77,20 +84,9 @@ class SpotifyClient(object):
         }
         return headers
 
-    def _condition_params(self, data):
-        for k, v in data.items():
-            data[k] = v.lower()
-        return data
-
-    @staticmethod
-    def _create_artist_url(id=None):
-        artist_url =  "https://api.spotify.com/v1/artists"
-        if id is None:
-            return artist_url
-        return os.path.join(artist_url, id)
 
     @Decorators.refreshToken
-    def search(self, data):
+    def search(self, **params):
         """
         perform sarch query on spotify api
         :param data: dict
@@ -148,13 +144,13 @@ class SpotifyClient(object):
         """
         search_url = "https://api.spotify.com/v1/search"
         bearer_token_headers = self.get_bearer_token_headers()
-        params = self._condition_params(data)
         r = requests.get(search_url, params=params, headers=bearer_token_headers)
         search_data = r.json()
         return search_data
 
+
     @Decorators.refreshToken
-    def search_artist(self, id=None, meta=None, country=None):
+    def search_artist(self, id):
         """
         searches artist by id
         :param id: default None. If None returns a list of artists
@@ -168,41 +164,11 @@ class SpotifyClient(object):
         :return:
             spotify object for desired query
         """
-        artist_url = self._create_artist_url(id)
-        if meta:
-            artist_url = os.path.join(artist_url, meta)
+        artist_url = f"https://api.spotify.com/v1/{id}"
         bearer_token_headers = self.get_bearer_token_headers()
-        if meta=="top-tracks":
-            params = {"country":country}
-            r = requests.get(artist_url, params=params, headers=bearer_token_headers)
-        else:
-            r = requests.get(artist_url, headers=bearer_token_headers)
-        if r.status_code in range(200, 299):
-            print("OK!")
-        else:
-            raise Exception(f"Status Code {r.status_code}\nCould not complete request")
-            return None
-        search_data = r.json()
-        return search_data
 
-    @Decorators.refreshToken
-    def search_artists(self, ids):
-        """
-        searches multiple artists
-        :param ids: list of artist ids
-        :return: json object if call is successful
-        """
-        ids = ",".join(ids)
-        artists_url = self._create_artist_url()
-        bearer_token_headers = self.get_bearer_token_headers()
-        params = {"ids":ids}
-        r = requests.get(artists_url, params=params, headers=bearer_token_headers)
-        if r.status_code in range(200, 299):
-            print("OK!")
-        else:
-            raise Exception(f"Status Code {r.status_code}\nCould not complete request")
-            return None
-        search_data = r.json()
+
+
         return search_data
 
 
