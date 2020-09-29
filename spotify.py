@@ -219,7 +219,7 @@ class SpotifyClient(object):
 
     def search_album(self):
         pass
-    
+
     def search_album_track(self, id):
         pass
 
