@@ -204,7 +204,7 @@ class SpotifyClient(object):
         r = self._search_artist_endpoint(id=id, endpoint=endpoint, params=params)
         return r.json()
 
-    def search_arist_top_tracks(self, id, **params):
+    def search_artist_top_tracks(self, id, **params):
         endpoint = "top-tracks"
         r = self._search_artist_endpoint(id=id, endpoint=endpoint, params=params)
         return r.json()
@@ -222,4 +222,3 @@ class SpotifyClient(object):
 
     def search_album_track(self, id):
         pass
-
