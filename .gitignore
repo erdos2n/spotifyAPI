@@ -7,4 +7,8 @@ __pycache__/*
 __pychache__
 spotifyLesson.ipynb
 venv/
-
+*.ipynb
+spotifyAPI_rafacarrasco.egg-info
+dist/
+build/
+tests/
