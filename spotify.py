@@ -35,11 +35,26 @@ class SpotifyClient(object):
 
             return wrapper
 
-
-    def make_request(self, headers, url, method):
-        r = requests.request(method=method, url=url, headers=headers)
-        if r not in range(200, 299):
-            raise Exception()
+    @Decorators.refreshToken
+    def make_get_request(self, url, headers='bearer', method="GET", params=None):
+        if headers=='bearer':
+            headers = self.get_bearer_token_headers()
+        error_url = "{} : {}"
+        try:
+            r = requests.request(method=method, url=url, headers=headers, params=params)
+        except requests.exceptions.HTTPError as e:
+            print(error_url.format(url, e))
+            return None
+        except requests.exceptions.ConnectionError as e:
+            print(error_url.format(url, e))
+            return None
+        except requests.exceptions.Timeout as e:
+            print(error_url.format(url, e))
+            return None
+        except requests.exceptions.RequestException as e:
+            print(error_url.format(url, e))
+            return None
+        return r
 
 
     def get_auth_token_headers(self):
@@ -85,7 +100,6 @@ class SpotifyClient(object):
         return headers
 
 
-    @Decorators.refreshToken
     def search(self, **params):
         """
         perform sarch query on spotify api
@@ -143,13 +157,11 @@ class SpotifyClient(object):
             The response body contains an error object.
         """
         search_url = "https://api.spotify.com/v1/search"
-        bearer_token_headers = self.get_bearer_token_headers()
-        r = requests.get(search_url, params=params, headers=bearer_token_headers)
+        r = self.make_get_request(url=search_url, params=params)
         search_data = r.json()
         return search_data
 
 
-    @Decorators.refreshToken
     def search_artist(self, id):
         """
         searches artist by id
@@ -166,11 +178,47 @@ class SpotifyClient(object):
         """
         artist_url = f"https://api.spotify.com/v1/{id}"
         bearer_token_headers = self.get_bearer_token_headers()
+        method = "GET"
+        r = self.make_get_request(url=artist_url, method=method, headers=bearer_token_headers)
+        return r.json()
 
+    def search_artists(self, ids):
+        """
+        search multiple artists by their ids
+        :param ids: list of artist ids
+        :return:
+        """
+        ids = ",".join(ids)
+        params = {"ids":ids}
+        search_artists_url = "https://api.spotify.com/v1/artists"
+        r = self.make_get_request(url=search_artists_url, params=params)
+        return r.json()
 
+    def _search_artist_endpoint(self, id, endpoint, params):
+        artist_url = f"https://api.spotify.com/v1/{id}/{endpoint}"
+        r = self.make_get_request(url=artist_url, params=params)
+        return r.json()
 
-        return search_data
+    def search_artist_albums(self, id, **params):
+        endpoint = "albums"
+        r = self._search_artist_endpoint(id=id, endpoint=endpoint, params=params)
+        return r.json()
 
+    def search_artist_top_tracks(self, id, **params):
+        endpoint = "top-tracks"
+        r = self._search_artist_endpoint(id=id, endpoint=endpoint, params=params)
+        return r.json()
 
-    
+    def search_artist_related_artists(self, id, **params):
+        endpoint = "related-artists"
+        r = self._search_artist_endpoint(id=id, endpoint=endpoint, params=params)
+        return r.json()
 
+    def search_albums(self, id):
+        pass
+
+    def search_album(self):
+        pass
+
+    def search_album_track(self, id):
+        pass

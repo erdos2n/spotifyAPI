@@ -3,4 +3,10 @@
 
 
 # Requirements
+* requirements.txt
+
+# Client Credentials Needed
+* client id
+* client secret
+
 
