@@ -1,0 +1,72 @@
+Metadata-Version: 2.1
+Name: spotify-me
+Version: 0.0.1
+Summary: A SpotifyAPI Client that is straightforward and works easily
+Home-page: https://github.com/erdos2n/spotifyAPI
+Author: Rafael Carrasco
+Author-email: rafacarrasco07@gmail.com
+License: GPL
+Description: # Spotify API Client
+        Rafa Carrasco
+        
+        ## About
+        I decided to make this as a side project. If you have improvements on it, please feel free to make a pull request. I have only really worked the `search` endpoint and the `artist` endpoints. I need to work on the other endpoints as well.
+        
+        # Install using the following
+        
+        ```bash
+        ```
+        
+        # Using the client
+        
+        
+        ```python
+        from spotify.spotify import SpotifyClient
+        ```
+        
+        ### Make sure you are registered on [https://developer.spotify.com/](https://developer.spotify.com/)
+        
+        Once you register an app you should be able to see the client id and secret
+        
+        <img src="images/spotify-credentials.png" width="50%"/>
+        
+        
+        ```python
+        api = SpotifyClient(client_id=YOUR_CLIENT_ID, client_secret=YOUR_CLIENT_SECRET)
+        ```
+        
+        
+        ```python
+        # pass in the q, your query
+        # pass in the type of query: artist, album, playlist, podcast, etc
+        r = api.search(q="kanye west", limit=3, type='artist')
+        print(r)
+        ```
+        
+            {'artists': {'href': 'https://api.spotify.com/v1/search?query=kanye+west&type=artist&offset=0&limit=3', 'items': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x'}, 'followers': {'href': None, 'total': 12825017}, 'genres': ['chicago rap', 'rap'], 'href': 'https://api.spotify.com/v1/artists/5K4W6rqBFWDnAN6FQUkS6x', 'id': '5K4W6rqBFWDnAN6FQUkS6x', 'images': [{'height': 640, 'url': 'https://i.scdn.co/image/bd1c6fdf3705cf9b7d0c8ac8e7bbed98e31a1559', 'width': 640}, {'height': 320, 'url': 'https://i.scdn.co/image/b1414e865a16bc0080085ee1901d0bfd19f83fcb', 'width': 320}, {'height': 160, 'url': 'https://i.scdn.co/image/ac5cb571c194ca5a942b8096618217839b901a76', 'width': 160}], 'name': 'Kanye West', 'popularity': 91, 'type': 'artist', 'uri': 'spotify:artist:5K4W6rqBFWDnAN6FQUkS6x'}, {'external_urls': {'spotify': 'https://open.spotify.com/artist/5xMcX1WiPEq5BMw0Xz42Z4'}, 'followers': {'href': None, 'total': 66}, 'genres': [], 'href': 'https://api.spotify.com/v1/artists/5xMcX1WiPEq5BMw0Xz42Z4', 'id': '5xMcX1WiPEq5BMw0Xz42Z4', 'images': [], 'name': 'Kanye West for KanMan Productions, Inc. and Krazy Kat Catalogue, Inc.', 'popularity': 15, 'type': 'artist', 'uri': 'spotify:artist:5xMcX1WiPEq5BMw0Xz42Z4'}, {'external_urls': {'spotify': 'https://open.spotify.com/artist/5wUrFJpvNRKTXfV7lqDo2a'}, 'followers': {'href': None, 'total': 27}, 'genres': [], 'href': 'https://api.spotify.com/v1/artists/5wUrFJpvNRKTXfV7lqDo2a', 'id': '5wUrFJpvNRKTXfV7lqDo2a', 'images': [], 'name': 'Kanye West prod. B.o.B', 'popularity': 4, 'type': 'artist', 'uri': 'spotify:artist:5wUrFJpvNRKTXfV7lqDo2a'}], 'limit': 3, 'next': 'https://api.spotify.com/v1/search?query=kanye+west&type=artist&offset=3&limit=3', 'offset': 0, 'previous': None, 'total': 13}}
+        
+        
+        # Enjoy!
+        
+        ## Needed Updates
+        * Endpoints Needed
+            * Albums
+            * Browse
+            * Episodes
+            * Follow
+            * Library
+            * Personalization
+            * Player
+            * Playlists
+            * Shows
+            * Tracks
+            * Users Profile
+            
+        * Data collection
+            * Getting Formatted User Data
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown

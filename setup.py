@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="spotifyAPI-rafacarrasco",
+    name="spotify-me",
     version="0.0.1",
     author="Rafael Carrasco",
     author_email="rafacarrasco07@gmail.com",
-    description="A SpotifyAPI Client",
+    description="A SpotifyAPI Client that is straightforward and works easily",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/erdos2n/spotifyAPI",

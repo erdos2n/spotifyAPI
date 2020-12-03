@@ -6,10 +6,11 @@ I decided to make this as a side project. If you have improvements on it, please
 
 # Install using the following
 
-```bash
+```
+pip install spotify-me
 ```
 
-# Using the client
+# How to Use
 
 
 ```python
